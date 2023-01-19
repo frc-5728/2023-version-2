@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   // declaring motor controllers
   VictorSPX m0Spx = new VictorSPX(0);
 
-  // the compressor class or the pneumatics
+  // the pneumatics (compressor, solenoid, pressure switch)
   Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
   DoubleSolenoid doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
