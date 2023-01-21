@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -37,6 +38,9 @@ public class Robot extends TimedRobot {
   Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
   Solenoid solenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
 
+  // gyro
+  AHRS gyroAhrs = new AHRS();
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -48,6 +52,8 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     compressor.enableDigital();
+
+    gyroAhrs.calibrate();
   }
 
   /**
@@ -89,6 +95,8 @@ public class Robot extends TimedRobot {
     if (controller.getAButtonReleased()) {
       compressor.enableDigital();
     }
+
+    System.out.println(gyroAhrs.getAngle());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -96,7 +104,9 @@ public class Robot extends TimedRobot {
   public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    compressor.disable();
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override

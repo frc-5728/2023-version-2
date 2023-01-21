@@ -1,3 +1,5 @@
+package frc.robot.subsystems;
+
 // Initialize Gyro and Gyro subfunctions
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -5,46 +7,24 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Gyro extends SubsystemBase {
-    
-    // Create a new Gyro
-    public Gyro() {}
+    private final XboxController controller;
+    private AHRS gyro;
 
-    // initialize Gyro once
-
-    runOnce(
-        () -> {
-
-          /* one-time action goes here */
-          gyroInit();
-          
-        }
-    );
-
-    // All Gyro functions
-
-    public boolean gyroInit() {
+    public Gyro(XboxController controller) {
+        this.controller = controller;
 
         try {
-
-            /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
-            /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
-            /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
-            AHRS ahrs = new AHRS(SPI.Port.kMXP);
-
-            System.out.println("Success: initialization gyro");
-
-        } catch (RuntimeException ex ) {
-
-            System.out.println("Error instantiating navX MXP:  " + ex.getMessage(), true);
-
-            return false;
-
+            gyro = new AHRS(Port.kMXP);
+        } catch (Exception e) {
+            System.out.println("Gyro instantiating error: " + e);
         }
 
-        return true; 
-
+        System.out.println("Gyro Calibrated");
     }
 
 }
