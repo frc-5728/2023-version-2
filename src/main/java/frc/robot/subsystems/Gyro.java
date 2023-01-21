@@ -1,10 +1,29 @@
 // Initialize Gyro and Gyro subfunctions
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import com.kauailabs.navx.frc.AHRS;
 
 public class Gyro extends SubsystemBase {
     
-    public Gyro() {
+    // Create a new Gyro
+    public Gyro() {}
+
+    // initialize Gyro once
+
+    runOnce(
+        () -> {
+
+          /* one-time action goes here */
+          gyroInit();
+          
+        }
+    );
+
+    // All Gyro functions
+
+    public boolean gyroInit() {
+
         try {
 
             /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
@@ -18,7 +37,12 @@ public class Gyro extends SubsystemBase {
 
             System.out.println("Error instantiating navX MXP:  " + ex.getMessage(), true);
 
+            return false;
+
         }
+
+        return true; 
+
     }
 
 }
