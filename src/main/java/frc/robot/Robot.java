@@ -10,6 +10,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -34,7 +35,7 @@ public class Robot extends TimedRobot {
 
   // the pneumatics (compressor, solenoid, pressure switch)
   Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-  DoubleSolenoid doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+  Solenoid solenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 0);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -69,11 +70,11 @@ public class Robot extends TimedRobot {
     if (controller.getLeftBumper()) {
       // forward means shooting the di** out of the tube
       // it is coming out
-      doubleSolenoid.set(Value.kForward);
+      solenoid.set(true);
     } 
     if (controller.getRightBumper()) {
       // reverse is when it is going back in
-      doubleSolenoid.set(Value.kReverse);
+      solenoid.set(false);
     }
 
     if (controller.getAButton()) {
@@ -81,9 +82,12 @@ public class Robot extends TimedRobot {
       compressor.enableDigital();
     }
     
-    if (controller.getBButton()) {
+    if (controller.getBButtonPressed()) {
       System.out.println("B button xbox pressed");
       compressor.disable();
+    }
+    if (controller.getAButtonReleased()) {
+      compressor.enableDigital();
     }
   }
 
