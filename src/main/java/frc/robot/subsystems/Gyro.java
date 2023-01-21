@@ -3,6 +3,8 @@
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
+
 
 public class Gyro extends SubsystemBase {
     
@@ -29,7 +31,7 @@ public class Gyro extends SubsystemBase {
             /* Communicate w/navX MXP via the MXP SPI Bus.                                     */
             /* Alternatively:  I2C.Port.kMXP, SerialPort.Port.kMXP or SerialPort.Port.kUSB     */
             /* See http://navx-mxp.kauailabs.com/guidance/selecting-an-interface/ for details. */
-            ahrs = new AHRS(SPI.Port.kMXP);
+            AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
             System.out.println("Success: initialization gyro");
 
