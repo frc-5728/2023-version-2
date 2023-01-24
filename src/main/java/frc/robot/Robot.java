@@ -9,12 +9,16 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoMode;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
@@ -46,6 +50,7 @@ public class Robot extends TimedRobot {
 
   // gyro
   AHRS gyroAhrs = new AHRS(Port.kMXP);
+  Servo servo0 = new Servo(0);
 
   // camera init
   // UsbCamera cam1UsbCamera = new UsbCamera("USB Camera 0", 0);
@@ -77,11 +82,19 @@ public class Robot extends TimedRobot {
     gyroAhrs.calibrate();
 
     cam1UsbCamera = CameraServer.startAutomaticCapture(0);
-    cam2UsbCamera = CameraServer.startAutomaticCapture(1);
+    // cam2UsbCamera = CameraServer.startAutomaticCapture(1);
 
-    cam1UsbCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+    System.out.println(cam1UsbCamera);
     
-    m1MjpegServer.setSource(cam1UsbCamera);
+    // cam1UsbCamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+    
+    // m1MjpegServer.setSource(cam1UsbCamera);
+
+    // System.out.println(CameraServer.startAutomaticCapture());
+
+    // servo0.set(0.5);
+    // servo0.set(0);
+    // servo0.set(1);
 
     
     // just testing
@@ -102,6 +115,17 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    // testing the camera / vid processing
+
+    CvSink vidCvSink = CameraServer.getVideo();
+
+    CvSource imgCvSource = new CvSource("cv source", VideoMode.getPixelFormatFromInt(10), m_notifier, m_notifier, m_notifier);
+    
+    CameraServer.putVideo("Cam 0", 200, 200);
+
+    // adjusting the direction of the servo 
+    servo0.setAngle(gyroAhrs.getAngle());
 
     // m0Spx.set(ControlMode.PercentOutput, 1);
 
