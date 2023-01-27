@@ -66,6 +66,7 @@ public class Robot extends TimedRobot {
   MjpegServer m2MjpegServer = new MjpegServer("Camera 2 Output", 1201); // this is for output of camera 
   // onto the shuffleboard
   
+  AprilTagAutoDetect atad = new AprilTagAutoDetect();
 
   /**
    * This function is run when the robot is first started up and should be used for any
