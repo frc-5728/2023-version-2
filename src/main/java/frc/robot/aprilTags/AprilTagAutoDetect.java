@@ -77,7 +77,7 @@ public class AprilTagAutoDetect extends LinearOpMode
             @Override
             public void onError(int errorCode)
             {
-
+                System.println("Error: " + errorCode + " at line 80 in AprilTagDetect.java");
             }
         });
 

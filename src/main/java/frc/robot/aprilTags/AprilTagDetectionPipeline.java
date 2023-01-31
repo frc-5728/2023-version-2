@@ -81,6 +81,9 @@ class AprilTagDetectionPipeline extends OpenCvPipeline
 
         // Allocate a native context object. See the corresponding deletion in the finalizer
         nativeApriltagPtr = AprilTagDetectorJNI.createApriltagDetector(AprilTagDetectorJNI.TagFamily.TAG_36h11.string, 3, 3);
+
+        System.println("Camera Matrix Initialized");
+
     }
 
     @Override
